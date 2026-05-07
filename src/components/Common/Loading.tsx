@@ -8,7 +8,7 @@ const Loading: React.FC = () => {
       justifyContent: 'center', 
       alignItems: 'center', 
       height: '200px' 
-    }>
+    }}>
       <Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} />
     </div>
   );

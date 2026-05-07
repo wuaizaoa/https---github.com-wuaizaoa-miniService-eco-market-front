@@ -1,5 +1,5 @@
 import { api } from './api';
-import { CartItem, Order } from '@/types';
+import type { CartItem, Order } from '@/types';
 
 export interface CreateOrderParams {
   address: string;

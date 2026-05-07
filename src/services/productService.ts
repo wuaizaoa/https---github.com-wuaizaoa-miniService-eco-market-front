@@ -1,5 +1,5 @@
 import { api } from './api';
-import { Product, Category } from '@/types';
+import type { Product, Category } from '@/types';
 
 export interface ProductListParams {
   categoryId?: number;

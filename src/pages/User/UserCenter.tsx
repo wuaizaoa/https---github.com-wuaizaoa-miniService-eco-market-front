@@ -1,4 +1,4 @@
-import { Typography, Card, Row, Col, Button, Space, Avatar, Divider } from 'antd';
+import { Typography, Card, Row, Col, Button, Space, Avatar } from 'antd';
 import { UserOutlined, ShoppingOutlined, HeartOutlined, SettingOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { useUserStore } from '@/stores/useUserStore';

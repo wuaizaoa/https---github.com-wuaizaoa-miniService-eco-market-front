@@ -1,5 +1,5 @@
 import { api } from './api';
-import { Payment } from '@/types';
+import type { Payment } from '@/types';
 
 export interface PayParams {
   orderId: number;

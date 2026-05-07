@@ -9,14 +9,14 @@ const Register: React.FC = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
-  const onFinish = async (values: any) => {
+  const onFinish = async () => {
     setLoading(true);
     try {
       // Mock register
       await new Promise((resolve) => setTimeout(resolve, 1000));
       message.success('注册成功，请登录');
       navigate('/login');
-    } catch (error) {
+    } catch {
       message.error('注册失败，请重试');
     } finally {
       setLoading(false);

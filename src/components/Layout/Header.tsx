@@ -1,4 +1,4 @@
-import { Layout, Menu, Button, Badge, Avatar, Dropdown, Typography, Space } from 'antd';
+import { Layout, Menu, Button, Badge, Avatar, Dropdown, Typography, Space, type MenuProps } from 'antd';
 import { ShoppingCartOutlined, UserOutlined, HomeOutlined, LogoutOutlined, MenuOutlined } from '@ant-design/icons';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useUserStore } from '@/stores/useUserStore';
@@ -13,7 +13,7 @@ const Header: React.FC = () => {
   const { isLoggedIn, user, logout } = useUserStore();
   const { totalCount } = useCartStore();
 
-  const userMenuItems = [
+  const userMenuItems: MenuProps['items'] = [
     {
       key: 'profile',
       label: <Link to="/user">个人中心</Link>,

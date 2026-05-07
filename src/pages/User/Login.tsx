@@ -12,7 +12,7 @@ const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const login = useUserStore((state) => state.login);
 
-  const from = (location.state as any)?.from?.pathname || '/';
+  const from = (location.state as { from?: { pathname: string } })?.from?.pathname || '/';
 
   const onFinish = async (values: { username: string; password: string }) => {
     setLoading(true);
@@ -33,7 +33,7 @@ const Login: React.FC = () => {
       
       message.success('登录成功');
       navigate(from, { replace: true });
-    } catch (error) {
+    } catch {
       message.error('登录失败，请重试');
     } finally {
       setLoading(false);

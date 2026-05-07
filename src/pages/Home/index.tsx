@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Typography, Row, Col, Space, Button, Carousel } from 'antd';
+import { Typography, Row, Col, Space, Button } from 'antd';
 import { ArrowRightOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import ProductList from '@/components/Product/ProductList';
 import Loading from '@/components/Common/Loading';
-import { Product } from '@/types';
-import { formatPrice } from '@/utils/format';
+import type { Product } from '@/types';
+
 
 const { Title, Paragraph } = Typography;
 

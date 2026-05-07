@@ -1,7 +1,7 @@
 import { useUserStore } from '@/stores/useUserStore';
 import { Navigate, useLocation } from 'react-router-dom';
 
-export const useAuth = () => {
+const useAuth = () => {
   const isLoggedIn = useUserStore((state) => state.isLoggedIn);
   return { isLoggedIn };
 };

@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Typography, Button, Card, List, Space, Row, Col, Form, Input, Radio, message, Steps } from 'antd';
+import { Typography, Button, Card, List, Space, Row, Col, Form, Input, Radio, message } from 'antd';
 import { ArrowLeftOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { useCartStore } from '@/stores/useCartStore';
 import { formatPrice } from '@/utils/format';
 
 const { Title, Text } = Typography;
-const { Step } = Steps;
+
 
 const Checkout: React.FC = () => {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const Checkout: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const { items, totalPrice, clearCart } = useCartStore();
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async () => {
     setLoading(true);
     try {
       // Mock create order
@@ -23,7 +23,7 @@ const Checkout: React.FC = () => {
       setCurrentStep(1);
       clearCart();
       message.success('订单创建成功');
-    } catch (error) {
+    } catch {
       message.error('创建订单失败');
     } finally {
       setLoading(false);

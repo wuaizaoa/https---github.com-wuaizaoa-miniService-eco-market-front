@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Typography, Button, Card, List, Tag, Space, Row, Col } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import Loading from '@/components/Common/Loading';
-import { Order } from '@/types';
+import type { Order } from '@/types';
 import { formatPrice, formatDate, getOrderStatusText } from '@/utils/format';
 
 const { Title, Text } = Typography;
@@ -74,7 +74,7 @@ const OrderDetail: React.FC = () => {
               <Text strong>订单号：{order.orderNo}</Text>
               {getStatusTag(order.status)}
             </Space>
-            <Text type="secondary">下单时间：{formatDate(order.createdAt)}</Text>
+            <Text type="secondary">下单时间：{order.createdAt ? formatDate(order.createdAt) : '-'}</Text>
           </div>
         </Space>
       </Card>

@@ -1,7 +1,7 @@
 import { Card, Button, Typography, Tag, Space, message } from 'antd';
 import { ShoppingCartOutlined, EyeOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import { Product } from '@/types';
+import type { Product } from '@/types';
 import { useCartStore } from '@/stores/useCartStore';
 import { formatPrice } from '@/utils/format';
 
@@ -75,7 +75,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
         title={<Title level={5} style={{ margin: 0 }}>{product.name}</Title>}
         description={
           <Space direction="vertical" size="small" style={{ width: '100%' }}>
-            <Text type="secondary" ellipsis={{ rows: 2 }}>
+            <Text type="secondary" style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
               {product.description || '暂无描述'}
             </Text>
             <Space>

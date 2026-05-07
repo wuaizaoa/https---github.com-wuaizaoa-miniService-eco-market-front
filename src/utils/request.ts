@@ -1,6 +1,6 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import axios, { type AxiosInstance, type AxiosResponse, type InternalAxiosRequestConfig } from 'axios';
 import { message } from 'antd';
-import { ApiResponse } from '@/types';
+import type { ApiResponse } from '@/types';
 
 const request: AxiosInstance = axios.create({
   timeout: 10000,
@@ -24,12 +24,12 @@ request.interceptors.request.use(
 
 request.interceptors.response.use(
   (response: AxiosResponse<ApiResponse>) => {
-    const { code, message: msg } = response.data;
-    if (code === 200) {
-      return response.data;
+    const res = response.data;
+    if (res.code === 200) {
+      return response;
     } else {
-      message.error(msg || '请求失败');
-      return Promise.reject(new Error(msg || '请求失败'));
+      message.error(res.message || '请求失败');
+      return Promise.reject(new Error(res.message || '请求失败'));
     }
   },
   (error) => {

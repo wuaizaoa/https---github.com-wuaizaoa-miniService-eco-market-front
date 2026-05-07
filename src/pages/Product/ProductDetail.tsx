@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Typography, Row, Col, Button, Space, Divider, Tag, message, Card, InputNumber } from 'antd';
 import { ShoppingCartOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import Loading from '@/components/Common/Loading';
-import { Product } from '@/types';
+import type { Product } from '@/types';
 import { useCartStore } from '@/stores/useCartStore';
 import { formatPrice } from '@/utils/format';
 

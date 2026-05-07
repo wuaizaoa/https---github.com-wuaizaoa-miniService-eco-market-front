@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Typography, Space, Select, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import ProductList from '@/components/Product/ProductList';
 import Loading from '@/components/Common/Loading';
-import { Product } from '@/types';
+import type { Product } from '@/types';
 
 const { Title } = Typography;
 const { Option } = Select;
@@ -78,22 +78,18 @@ const mockProducts: Product[] = [
 
 const ProductListPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState<Product[]>([]);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [searchText, setSearchText] = useState('');
   const [sortBy, setSortBy] = useState('default');
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setProducts(mockProducts);
-      setFilteredProducts(mockProducts);
       setLoading(false);
     }, 500);
     return () => clearTimeout(timer);
   }, []);
 
-  useEffect(() => {
-    let result = [...products];
+  const filteredProducts = useMemo(() => {
+    let result = [...mockProducts];
 
     // Filter by search
     if (searchText) {
@@ -117,8 +113,8 @@ const ProductListPage: React.FC = () => {
         break;
     }
 
-    setFilteredProducts(result);
-  }, [searchText, sortBy, products]);
+    return result;
+  }, [searchText, sortBy]);
 
   if (loading) {
     return <Loading />;
