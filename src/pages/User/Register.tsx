@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Form, Input, Button, Card, Typography, message, Space } from 'antd';
 import { UserOutlined, LockOutlined, MailOutlined, PhoneOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from 'react-router-dom';
+import { userService } from '@/services/userService';
 
 const { Title, Text } = Typography;
 
@@ -9,11 +10,15 @@ const Register: React.FC = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
-  const onFinish = async () => {
+  const onFinish = async (values: any) => {
     setLoading(true);
     try {
-      // Mock register
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await userService.register({
+        username: values.username,
+        password: values.password,
+        email: values.email,
+        phone: values.phone,
+      });
       message.success('注册成功，请登录');
       navigate('/login');
     } catch {

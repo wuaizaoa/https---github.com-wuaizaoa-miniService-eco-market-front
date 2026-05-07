@@ -1,80 +1,43 @@
 import { useState, useEffect } from 'react';
-import { Typography, Button, Card, List, Tag, Space, Empty } from 'antd';
+import { Typography, Button, Card, List, Tag, Space, Empty, message } from 'antd';
 import { ArrowLeftOutlined, EyeOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import Loading from '@/components/Common/Loading';
 import type { Order } from '@/types';
+import { useUserStore } from '@/stores/useUserStore';
+import { orderService } from '@/services/orderService';
 import { formatPrice, formatDate, getOrderStatusText } from '@/utils/format';
 
 const { Title, Text } = Typography;
-
-// Mock orders
-const mockOrders: Order[] = [
-  {
-    id: 1,
-    orderNo: 'EC202401010001',
-    userId: 1,
-    totalAmount: 128.00,
-    status: 2,
-    payTime: '2024-01-01 10:30:00',
-    createdAt: '2024-01-01 10:00:00',
-    items: [
-      {
-        id: 1,
-        orderId: 1,
-        productId: 1,
-        productName: '有机蔬菜礼盒',
-        productPrice: 128.00,
-        quantity: 1,
-      },
-    ],
-  },
-  {
-    id: 2,
-    orderNo: 'EC202401020002',
-    userId: 1,
-    totalAmount: 39.90,
-    status: 1,
-    payTime: '2024-01-02 14:20:00',
-    createdAt: '2024-01-02 14:00:00',
-    items: [
-      {
-        id: 2,
-        orderId: 2,
-        productId: 2,
-        productName: '环保竹纤维毛巾',
-        productPrice: 39.90,
-        quantity: 1,
-      },
-    ],
-  },
-  {
-    id: 3,
-    orderNo: 'EC202401030003',
-    userId: 1,
-    totalAmount: 0,
-    status: 3,
-    createdAt: '2024-01-03 09:00:00',
-    items: [],
-  },
-];
 
 const OrderList: React.FC = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState<Order[]>([]);
+  const user = useUserStore((state) => state.user);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setOrders(mockOrders);
+    if (user) {
+      fetchOrders();
+    }
+  }, [user]);
+
+  const fetchOrders = async () => {
+    if (!user) return;
+    setLoading(true);
+    try {
+      const response = await orderService.getOrdersByUserId(user.id);
+      setOrders(response.data);
+    } catch {
+      message.error('加载订单失败');
+    } finally {
       setLoading(false);
-    }, 500);
-    return () => clearTimeout(timer);
-  }, []);
+    }
+  };
 
   const getStatusTag = (status: number) => {
-    const colors = ['orange', 'blue', 'green', 'red'];
-    return <Tag color={colors[status]}>{getOrderStatusText(status)}</Tag>;
+    const colors = ['orange', 'blue', 'green', 'red', 'gray'];
+    return <Tag color={colors[status] || 'gray'}>{getOrderStatusText(status)}</Tag>;
   };
 
   if (loading) {
@@ -96,7 +59,7 @@ const OrderList: React.FC = () => {
         <List
           dataSource={orders}
           renderItem={(order) => (
-            <List.Item>
+            <List.Item key={order.id}>
               <Card
                 style={{ width: '100%' }}
                 actions={[
@@ -119,7 +82,7 @@ const OrderList: React.FC = () => {
                   </div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Text>
-                      共 {order.items?.length || 0} 件商品
+                      共 {order.orderItems?.length || 0} 件商品
                     </Text>
                     <Title level={4} style={{ color: '#52c41a', margin: 0 }}>
                       {formatPrice(order.totalAmount)}

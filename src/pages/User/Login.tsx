@@ -3,6 +3,7 @@ import { Form, Input, Button, Card, Typography, message, Space } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useUserStore } from '@/stores/useUserStore';
+import { userService } from '@/services/userService';
 
 const { Title, Text } = Typography;
 
@@ -17,23 +18,17 @@ const Login: React.FC = () => {
   const onFinish = async (values: { username: string; password: string }) => {
     setLoading(true);
     try {
-      // Mock login
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const response = await userService.login(values);
+      const loginData = response.data;
       
-      login(
-        {
-          id: 1,
-          username: values.username,
-          email: 'user@example.com',
-          phone: '13800138000',
-          status: 1,
-        },
-        'mock-token-12345'
-      );
+      // 获取用户信息
+      const userResponse = await userService.getUserById(loginData.id);
+      
+      login(userResponse.data, loginData.token);
       
       message.success('登录成功');
       navigate(from, { replace: true });
-    } catch {
+    } catch (error) {
       message.error('登录失败，请重试');
     } finally {
       setLoading(false);

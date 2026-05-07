@@ -17,8 +17,9 @@ export const getOrderStatusText = (status: number): string => {
   const statusMap: Record<number, string> = {
     0: '待支付',
     1: '已支付',
-    2: '已完成',
-    3: '已取消',
+    2: '已发货',
+    3: '已收货',
+    4: '已取消',
   };
   return statusMap[status] || '未知';
 };

@@ -15,6 +15,12 @@ export interface User {
   updatedAt?: string;
 }
 
+export interface LoginResponse {
+  id: number;
+  username: string;
+  token: string;
+}
+
 export interface Category {
   id: number;
   name: string;
@@ -64,7 +70,7 @@ export interface Order {
   payTime?: string;
   createdAt?: string;
   updatedAt?: string;
-  items?: OrderItem[];
+  orderItems?: OrderItem[];
 }
 
 export interface Payment {
@@ -80,5 +86,5 @@ export interface Payment {
   updatedAt?: string;
 }
 
-export type OrderStatus = 0 | 1 | 2 | 3;
+export type OrderStatus = 0 | 1 | 2 | 3 | 4;
 export type PaymentStatus = 0 | 1;

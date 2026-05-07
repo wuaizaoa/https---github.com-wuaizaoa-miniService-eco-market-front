@@ -18,22 +18,22 @@ export default defineConfig({
       '/api/user': {
         target: 'http://localhost:8081',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/user/, ''),
       },
       '/api/product': {
         target: 'http://localhost:8082',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/product/, ''),
+      },
+      '/api/cart': {
+        target: 'http://localhost:8083',
+        changeOrigin: true,
       },
       '/api/order': {
         target: 'http://localhost:8083',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/order/, ''),
       },
       '/api/payment': {
         target: 'http://localhost:8084',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api\/payment/, ''),
       },
     },
   },

@@ -1,101 +1,56 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Typography, Space, Select, Input } from 'antd';
+import { Typography, Space, Select, Input, message } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import ProductList from '@/components/Product/ProductList';
 import Loading from '@/components/Common/Loading';
-import type { Product } from '@/types';
+import type { Product, Category } from '@/types';
+import { productService } from '@/services/productService';
 
 const { Title } = Typography;
 const { Option } = Select;
 
-// Mock data
-const mockProducts: Product[] = [
-  {
-    id: 1,
-    name: '有机蔬菜礼盒',
-    description: '新鲜有机蔬菜，健康生活首选',
-    price: 128.00,
-    stock: 50,
-    status: 1,
-  },
-  {
-    id: 2,
-    name: '环保竹纤维毛巾',
-    description: '天然竹纤维，柔软亲肤，可降解材质',
-    price: 39.90,
-    stock: 200,
-    status: 1,
-  },
-  {
-    id: 3,
-    name: '天然蜂蜜礼盒',
-    description: '原生态蜂蜜，纯天然无添加',
-    price: 168.00,
-    stock: 30,
-    status: 1,
-  },
-  {
-    id: 4,
-    name: '可降解购物袋套装',
-    description: '环保购物袋，可重复使用',
-    price: 29.90,
-    stock: 500,
-    status: 1,
-  },
-  {
-    id: 5,
-    name: '有机五谷杂粮',
-    description: '健康杂粮，营养丰富',
-    price: 88.00,
-    stock: 100,
-    status: 1,
-  },
-  {
-    id: 6,
-    name: '天然精油套装',
-    description: '植物提取，自然芳香',
-    price: 258.00,
-    stock: 40,
-    status: 1,
-  },
-  {
-    id: 7,
-    name: '环保陶瓷餐具',
-    description: '精致陶瓷，健康环保',
-    price: 198.00,
-    stock: 60,
-    status: 1,
-  },
-  {
-    id: 8,
-    name: '有机水果礼盒',
-    description: '当季新鲜有机水果',
-    price: 158.00,
-    stock: 25,
-    status: 1,
-  },
-];
-
 const ProductListPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [searchText, setSearchText] = useState('');
   const [sortBy, setSortBy] = useState('default');
+  const [selectedCategory, setSelectedCategory] = useState<number | undefined>(undefined);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 500);
-    return () => clearTimeout(timer);
+    fetchData();
   }, []);
 
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const [productsRes, categoriesRes] = await Promise.all([
+        productService.getAllProducts(),
+        productService.getAllCategories(),
+      ]);
+      setProducts(productsRes.data);
+      setCategories(categoriesRes.data);
+    } catch {
+      message.error('加载数据失败');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const filteredProducts = useMemo(() => {
-    let result = [...mockProducts];
+    let result = [...products];
 
     // Filter by search
     if (searchText) {
       result = result.filter((p) =>
-        p.name.toLowerCase().includes(searchText.toLowerCase())
+        p.name.toLowerCase().includes(searchText.toLowerCase()) ||
+        (p.description && p.description.toLowerCase().includes(searchText.toLowerCase()))
       );
+    }
+
+    // Filter by category
+    if (selectedCategory) {
+      result = result.filter((p) => p.categoryId === selectedCategory);
     }
 
     // Sort
@@ -114,7 +69,7 @@ const ProductListPage: React.FC = () => {
     }
 
     return result;
-  }, [searchText, sortBy]);
+  }, [products, searchText, sortBy, selectedCategory]);
 
   if (loading) {
     return <Loading />;
@@ -133,6 +88,17 @@ const ProductListPage: React.FC = () => {
           onChange={(e) => setSearchText(e.target.value)}
           style={{ width: 300 }}
         />
+        <Select
+          placeholder="选择分类"
+          value={selectedCategory}
+          onChange={setSelectedCategory}
+          style={{ width: 200 }}
+          allowClear
+        >
+          {categories.map((c) => (
+            <Option key={c.id} value={c.id}>{c.name}</Option>
+          ))}
+        </Select>
         <Select
           value={sortBy}
           onChange={setSortBy}

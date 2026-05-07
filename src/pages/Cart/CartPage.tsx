@@ -1,14 +1,60 @@
+import { useEffect, useState } from 'react';
 import { Typography, Button, Card, List, InputNumber, Space, Empty, message, Row, Col } from 'antd';
 import { DeleteOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { useCartStore } from '@/stores/useCartStore';
+import { useUserStore } from '@/stores/useUserStore';
 import { formatPrice } from '@/utils/format';
+import Loading from '@/components/Common/Loading';
 
 const { Title, Text } = Typography;
 
 const CartPage: React.FC = () => {
   const navigate = useNavigate();
-  const { items, totalCount, totalPrice, updateQuantity, removeItem, clearCart } = useCartStore();
+  const [localLoading, setLocalLoading] = useState(false);
+  const { items, totalCount, totalPrice, updateQuantity, removeItem, clearCart, fetchCart, loading } = useCartStore();
+  const user = useUserStore((state) => state.user);
+
+  useEffect(() => {
+    if (user) {
+      fetchCart();
+    }
+  }, [user]);
+
+  const handleUpdateQuantity = async (productId: number, quantity: number) => {
+    setLocalLoading(true);
+    try {
+      await updateQuantity(productId, quantity);
+    } catch (error) {
+      message.error(error instanceof Error ? error.message : '更新数量失败');
+    } finally {
+      setLocalLoading(false);
+    }
+  };
+
+  const handleRemoveItem = async (productId: number) => {
+    setLocalLoading(true);
+    try {
+      await removeItem(productId);
+      message.success('已移除商品');
+    } catch (error) {
+      message.error(error instanceof Error ? error.message : '移除商品失败');
+    } finally {
+      setLocalLoading(false);
+    }
+  };
+
+  const handleClearCart = async () => {
+    setLocalLoading(true);
+    try {
+      await clearCart();
+      message.success('购物车已清空');
+    } catch (error) {
+      message.error(error instanceof Error ? error.message : '清空购物车失败');
+    } finally {
+      setLocalLoading(false);
+    }
+  };
 
   const handleCheckout = () => {
     if (items.length === 0) {
@@ -17,6 +63,10 @@ const CartPage: React.FC = () => {
     }
     navigate('/checkout');
   };
+
+  if (loading || localLoading) {
+    return <Loading />;
+  }
 
   if (items.length === 0) {
     return (
@@ -72,12 +122,12 @@ const CartPage: React.FC = () => {
                         <InputNumber
                           min={1}
                           value={item.quantity}
-                          onChange={(value) => updateQuantity(item.productId, value || 1)}
+                          onChange={(value) => handleUpdateQuantity(item.productId, value || 1)}
                         />
                         <Button
                           danger
                           icon={<DeleteOutlined />}
-                          onClick={() => removeItem(item.productId)}
+                          onClick={() => handleRemoveItem(item.productId)}
                         />
                       </Space>
                     </Col>
@@ -123,7 +173,7 @@ const CartPage: React.FC = () => {
               >
                 去结算
               </Button>
-              <Button danger style={{ width: '100%' }} onClick={clearCart}>
+              <Button danger style={{ width: '100%' }} onClick={handleClearCart}>
                 清空购物车
               </Button>
             </Space>

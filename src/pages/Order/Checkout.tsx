@@ -3,6 +3,8 @@ import { Typography, Button, Card, List, Space, Row, Col, Form, Input, Radio, me
 import { ArrowLeftOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
 import { useCartStore } from '@/stores/useCartStore';
+import { useUserStore } from '@/stores/useUserStore';
+import { orderService } from '@/services/orderService';
 import { formatPrice } from '@/utils/format';
 
 const { Title, Text } = Typography;
@@ -14,14 +16,27 @@ const Checkout: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const { items, totalPrice, clearCart } = useCartStore();
+  const user = useUserStore((state) => state.user);
 
   const handleSubmit = async () => {
+    if (!user) {
+      message.error('请先登录');
+      navigate('/login');
+      return;
+    }
+
     setLoading(true);
     try {
-      // Mock create order
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const orderData = {
+        userId: user.id,
+        items: items.map(item => ({
+          productId: item.productId,
+          quantity: item.quantity,
+        })),
+      };
+      await orderService.createOrder(orderData);
       setCurrentStep(1);
-      clearCart();
+      await clearCart();
       message.success('订单创建成功');
     } catch {
       message.error('创建订单失败');

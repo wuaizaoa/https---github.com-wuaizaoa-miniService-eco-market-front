@@ -5,19 +5,10 @@ import { ShoppingCartOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import Loading from '@/components/Common/Loading';
 import type { Product } from '@/types';
 import { useCartStore } from '@/stores/useCartStore';
+import { productService } from '@/services/productService';
 import { formatPrice } from '@/utils/format';
 
 const { Title, Paragraph, Text } = Typography;
-
-// Mock product data
-const getMockProduct = (id: string): Product => ({
-  id: parseInt(id),
-  name: '有机蔬菜礼盒',
-  description: '精选当季新鲜有机蔬菜，包括：生菜、番茄、黄瓜、胡萝卜、西兰花等。无农药残留，健康安全。',
-  price: 128.00,
-  stock: 50,
-  status: 1,
-});
 
 const ProductDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -28,29 +19,40 @@ const ProductDetail: React.FC = () => {
   const addItem = useCartStore((state) => state.addItem);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (id) {
-        setProduct(getMockProduct(id));
-      }
-      setLoading(false);
-    }, 500);
-    return () => clearTimeout(timer);
+    if (id) {
+      fetchProduct(parseInt(id));
+    }
   }, [id]);
 
-  const handleAddToCart = () => {
-    if (!product) return;
-    addItem({
-      productId: product.id,
-      productName: product.name,
-      productPrice: product.price,
-      quantity: quantity,
-      image: product.image,
-    });
-    message.success(`已添加 ${quantity} 件商品到购物车`);
+  const fetchProduct = async (productId: number) => {
+    setLoading(true);
+    try {
+      const response = await productService.getProductDetail(productId);
+      setProduct(response.data);
+    } catch {
+      message.error('加载商品失败');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleBuyNow = () => {
-    handleAddToCart();
+  const handleAddToCart = async () => {
+    if (!product) return;
+    try {
+      await addItem({
+        productId: product.id,
+        productName: product.name,
+        productPrice: product.price,
+        quantity: quantity,
+      });
+      message.success(`已添加 ${quantity} 件商品到购物车`);
+    } catch (error) {
+      message.error(error instanceof Error ? error.message : '添加到购物车失败');
+    }
+  };
+
+  const handleBuyNow = async () => {
+    await handleAddToCart();
     navigate('/cart');
   };
 

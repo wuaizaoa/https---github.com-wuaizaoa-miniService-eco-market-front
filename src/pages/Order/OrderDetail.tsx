@@ -1,33 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Typography, Button, Card, List, Tag, Space, Row, Col } from 'antd';
+import { Typography, Button, Card, List, Tag, Space, Row, Col, message } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import Loading from '@/components/Common/Loading';
 import type { Order } from '@/types';
+import { orderService } from '@/services/orderService';
 import { formatPrice, formatDate, getOrderStatusText } from '@/utils/format';
 
 const { Title, Text } = Typography;
-
-// Mock order detail
-const getMockOrder = (id: string): Order => ({
-  id: parseInt(id),
-  orderNo: 'EC202401010001',
-  userId: 1,
-  totalAmount: 128.00,
-  status: 2,
-  payTime: '2024-01-01 10:30:00',
-  createdAt: '2024-01-01 10:00:00',
-  items: [
-    {
-      id: 1,
-      orderId: 1,
-      productId: 1,
-      productName: '有机蔬菜礼盒',
-      productPrice: 128.00,
-      quantity: 1,
-    },
-  ],
-});
 
 const OrderDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -36,18 +16,26 @@ const OrderDetail: React.FC = () => {
   const [order, setOrder] = useState<Order | null>(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      if (id) {
-        setOrder(getMockOrder(id));
-      }
-      setLoading(false);
-    }, 500);
-    return () => clearTimeout(timer);
+    if (id) {
+      fetchOrder(parseInt(id));
+    }
   }, [id]);
 
+  const fetchOrder = async (orderId: number) => {
+    setLoading(true);
+    try {
+      const response = await orderService.getOrderDetail(orderId);
+      setOrder(response.data);
+    } catch {
+      message.error('加载订单详情失败');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const getStatusTag = (status: number) => {
-    const colors = ['orange', 'blue', 'green', 'red'];
-    return <Tag color={colors[status]}>{getOrderStatusText(status)}</Tag>;
+    const colors = ['orange', 'blue', 'green', 'red', 'gray'];
+    return <Tag color={colors[status] || 'gray'}>{getOrderStatusText(status)}</Tag>;
   };
 
   if (loading) {
@@ -57,6 +45,8 @@ const OrderDetail: React.FC = () => {
   if (!order) {
     return <div>订单不存在</div>;
   }
+
+  const orderItems = order.orderItems || [];
 
   return (
     <Space direction="vertical" size="large" style={{ width: '100%' }}>
@@ -81,9 +71,9 @@ const OrderDetail: React.FC = () => {
 
       <Card title="商品清单">
         <List
-          dataSource={order.items}
+          dataSource={orderItems}
           renderItem={(item) => (
-            <List.Item>
+            <List.Item key={item.id}>
               <Row align="middle" gutter={16} style={{ width: '100%' }}>
                 <Col>
                   <div
