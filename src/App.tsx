@@ -10,10 +10,10 @@ function App() {
       locale={zhCN}
       theme={{
         token: {
-          colorPrimary: '#52c41a',
+          colorPrimary: '#722ED1',
           borderRadius: 8,
         },
-        algorithm: theme.defaultAlgorithm,
+        algorithm: theme.darkAlgorithm,
       }}
     >
       <AppLayout>

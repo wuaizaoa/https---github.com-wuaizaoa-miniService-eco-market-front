@@ -52,9 +52,9 @@ const Header: React.FC = () => {
       style={{
         display: 'flex',
         alignItems: 'center',
-        background: '#fff',
+        background: '#0a0a1a',
         padding: '0 24px',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
         position: 'sticky',
         top: 0,
         zIndex: 1000,
@@ -74,27 +74,43 @@ const Header: React.FC = () => {
             width: 40,
             height: 40,
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #52c41a 0%, #389e0d 100%)',
+            background: 'linear-gradient(135deg, #722ED1 0%, #1890FF 100%)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             marginRight: 12,
             fontSize: 20,
+            boxShadow: '0 0 10px #722ED1',
           }}
         >
-          🌿
+          🚀
         </div>
-        <Title level={4} style={{ margin: 0, color: '#52c41a' }}>
-          EcoMarket
+        <Title level={4} style={{ margin: 0, color: '#fff' }}>
+          微享商城
         </Title>
       </div>
 
       <Menu
         mode="horizontal"
         selectedKeys={[location.pathname]}
-        items={menuItems}
-        style={{ flex: 1, border: 'none', minWidth: 200 }}
+        style={{ flex: 1, border: 'none', minWidth: 200, background: 'transparent' }}
+        theme="dark"
         overflowedIndicator={<MenuOutlined />}
+        items={[
+          {
+            key: '/',
+            label: <Link to="/">首页</Link>,
+            icon: <HomeOutlined />,
+          },
+          {
+            key: '/products',
+            label: <Link to="/products">商品列表</Link>,
+          },
+        ]}
+        activeStyle={{
+          background: '#722ED1',
+          borderRadius: 6,
+        }}
       />
 
       <Space size="middle">
@@ -102,6 +118,7 @@ const Header: React.FC = () => {
           <Button
             type="text"
             icon={<ShoppingCartOutlined />}
+            style={{ color: '#fff' }}
             onClick={() => navigate('/cart')}
           >
             购物车
@@ -110,21 +127,21 @@ const Header: React.FC = () => {
 
         {isLoggedIn ? (
           <Dropdown menu={{ items: userMenuItems }} placement="bottomRight">
-            <Space style={{ cursor: 'pointer' }}>
+            <Space style={{ cursor: 'pointer', color: '#fff' }}>
               <Avatar
                 size="small"
                 icon={<UserOutlined />}
-                style={{ background: '#52c41a' }}
+                style={{ background: '#722ED1' }}
               />
               <span>{user?.username}</span>
             </Space>
           </Dropdown>
         ) : (
           <Space>
-            <Button type="text" onClick={() => navigate('/login')}>
+            <Button type="text" style={{ color: '#fff' }} onClick={() => navigate('/login')}>
               登录
             </Button>
-            <Button type="primary" style={{ background: '#52c41a' }} onClick={() => navigate('/register')}>
+            <Button type="primary" style={{ background: '#722ED1', borderColor: '#722ED1' }} onClick={() => navigate('/register')}>
               注册
             </Button>
           </Space>

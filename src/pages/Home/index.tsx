@@ -40,7 +40,7 @@ const Home: React.FC = () => {
       {/* Hero Section */}
       <div
         style={{
-          background: 'linear-gradient(135deg, #52c41a 0%, #389e0d 100%)',
+          background: 'linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 100%)',
           borderRadius: 16,
           padding: '48px 32px',
           color: '#fff',
@@ -51,28 +51,46 @@ const Home: React.FC = () => {
           <Col xs={24} md={12}>
             <Space direction="vertical" size="large">
               <div>
-                <Title level={1} style={{ color: '#fff', margin: 0 }}>
-                  🌿 EcoMarket
+                <Title level={1} style={{ 
+                  color: '#fff', 
+                  margin: 0,
+                  textShadow: '0 0 10px #722ED1, 0 0 20px #722ED1, 0 0 30px #722ED1'
+                }}>
+                  微享商城
                 </Title>
-                <Title level={3} style={{ color: 'rgba(255,255,255,0.9)', margin: '12px 0' }}>
-                  环保购物，守护地球
+                <Title level={3} style={{ 
+                  color: 'rgba(255,255,255,0.9)', 
+                  margin: '12px 0',
+                  textShadow: '0 0 10px #1890FF, 0 0 20px #1890FF'
+                }}>
+                  畅享科技生活
                 </Title>
                 <Paragraph style={{ color: 'rgba(255,255,255,0.8)', fontSize: 16 }}>
-                  我们致力于为您提供环保、健康的商品。每一次购物，都是对地球的一份爱护。
+                  精选数码好物，从手机到无人机，一网打尽。享受科技带来的美好生活。
                 </Paragraph>
               </div>
               <Button
                 size="large"
-                type="primary"
-                style={{ background: '#fff', color: '#52c41a' }}
+                style={{ 
+                  background: 'transparent',
+                  color: '#1890FF',
+                  border: '2px solid #1890FF',
+                  boxShadow: '0 0 10px #1890FF'
+                }}
                 onClick={() => navigate('/products')}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = '0 0 20px #1890FF';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = '0 0 10px #1890FF';
+                }}
               >
                 立即选购 <ArrowRightOutlined />
               </Button>
             </Space>
           </Col>
           <Col xs={24} md={12} style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 120 }}>🌍</div>
+            <div style={{ fontSize: 120 }}>📱💻🎧</div>
           </Col>
         </Row>
       </div>
@@ -99,21 +117,21 @@ const Home: React.FC = () => {
       </div>
 
       {/* Features */}
-      <Row gutter={32} style={{ marginTop: 32, padding: '32px', background: '#fff', borderRadius: 16 }}>
+      <Row gutter={32} style={{ marginTop: 32, padding: '32px', background: '#1a1a3a', borderRadius: 16 }}>
         <Col xs={24} md={8} style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 48, marginBottom: 16 }}>🌱</div>
-          <Title level={4}>环保选材</Title>
-          <Paragraph type="secondary">所有商品均采用环保材料</Paragraph>
+          <div style={{ fontSize: 48, marginBottom: 16 }}>✅</div>
+          <Title level={4} style={{ color: '#fff' }}>正品保障</Title>
+          <Paragraph style={{ color: 'rgba(255,255,255,0.8)' }}>确保每一件都是正品</Paragraph>
         </Col>
         <Col xs={24} md={8} style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 48, marginBottom: 16 }}>🚚</div>
-          <Title level={4}>绿色配送</Title>
-          <Paragraph type="secondary">使用可回收包装，减少碳排放</Paragraph>
+          <div style={{ fontSize: 48, marginBottom: 16 }}>⚡</div>
+          <Title level={4} style={{ color: '#fff' }}>极速发货</Title>
+          <Paragraph style={{ color: 'rgba(255,255,255,0.8)' }}>24小时内快速发货</Paragraph>
         </Col>
         <Col xs={24} md={8} style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 48, marginBottom: 16 }}>💚</div>
-          <Title level={4}>公益回馈</Title>
-          <Paragraph type="secondary">部分收益用于环保公益事业</Paragraph>
+          <div style={{ fontSize: 48, marginBottom: 16 }}>🔧</div>
+          <Title level={4} style={{ color: '#fff' }}>技术支持</Title>
+          <Paragraph style={{ color: 'rgba(255,255,255,0.8)' }}>专业技术客服支持</Paragraph>
         </Col>
       </Row>
     </Space>

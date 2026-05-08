@@ -29,7 +29,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
   return (
     <Card
       hoverable
-      style={{ height: '100%' }}
+      style={{ height: '100%', background: '#1a1a3a', borderColor: '#2a2a4a' }}
       cover={
         <div
           style={{
@@ -37,7 +37,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'linear-gradient(135deg, #f6ffed 0%, #d9f7be 100%)',
+            background: 'linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 100%)',
             fontSize: 80,
           }}
         >
@@ -48,7 +48,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
           ) : (
-            '🌱'
+            '📱'
           )}
         </div>
       }
@@ -56,6 +56,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
         <Button
           key="view"
           icon={<EyeOutlined />}
+          style={{ color: '#1890FF', borderColor: '#1890FF' }}
           onClick={() => navigate(`/products/${product.id}`)}
         >
           查看详情
@@ -64,7 +65,7 @@ const ProductCard: React.FC<Props> = ({ product }) => {
           key="cart"
           type="primary"
           icon={<ShoppingCartOutlined />}
-          style={{ background: '#52c41a' }}
+          style={{ background: '#722ED1', borderColor: '#722ED1' }}
           onClick={handleAddToCart}
         >
           加入购物车
@@ -72,18 +73,18 @@ const ProductCard: React.FC<Props> = ({ product }) => {
       ]}
     >
       <Card.Meta
-        title={<Title level={5} style={{ margin: 0 }}>{product.name}</Title>}
+        title={<Title level={5} style={{ margin: 0, color: '#fff' }}>{product.name}</Title>}
         description={
           <Space direction="vertical" size="small" style={{ width: '100%' }}>
-            <Text type="secondary" style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+            <Text style={{ display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', color: 'rgba(255,255,255,0.8)' }}>
               {product.description || '暂无描述'}
             </Text>
             <Space>
-              <Tag color={product.stock > 0 ? 'green' : 'red'}>
+              <Tag color={product.stock > 0 ? 'blue' : 'red'}>
                 {product.stock > 0 ? `库存: ${product.stock}` : '已售罄'}
               </Tag>
             </Space>
-            <Title level={4} style={{ color: '#52c41a', margin: 0 }}>
+            <Title level={4} style={{ color: '#1890FF', margin: 0 }}>
               {formatPrice(product.price)}
             </Title>
           </Space>

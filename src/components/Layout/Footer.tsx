@@ -1,5 +1,5 @@
 import { Layout, Row, Col, Typography, Space } from 'antd';
-import { EnvironmentOutlined, HeartOutlined } from '@ant-design/icons';
+import { RocketOutlined, ThunderboltOutlined } from '@ant-design/icons';
 
 const { Footer: AntFooter } = Layout;
 const { Title, Text } = Typography;
@@ -8,7 +8,7 @@ const Footer: React.FC = () => {
   return (
     <AntFooter
       style={{
-        background: 'linear-gradient(135deg, #52c41a 0%, #389e0d 100%)',
+        background: 'linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 100%)',
         color: '#fff',
         marginTop: 'auto',
       }}
@@ -17,13 +17,13 @@ const Footer: React.FC = () => {
         <Col xs={24} md={8}>
           <Space direction="vertical">
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              <span style={{ fontSize: 24, marginRight: 8 }}>🌿</span>
+              <span style={{ fontSize: 24, marginRight: 8 }}>🚀</span>
               <Title level={4} style={{ margin: 0, color: '#fff' }}>
-                EcoMarket
+                微享商城
               </Title>
             </div>
             <Text style={{ color: 'rgba(255,255,255,0.85)' }}>
-              环保购物，从这里开始。我们致力于为您提供环保、健康的商品。
+              数码好物，触手可及。我们致力于为您提供最新、最潮的电子产品。
             </Text>
           </Space>
         </Col>
@@ -43,18 +43,18 @@ const Footer: React.FC = () => {
               联系我们
             </Title>
             <Space style={{ color: 'rgba(255,255,255,0.85)' }}>
-              <EnvironmentOutlined />
-              <span>绿色城市环保街道 123 号</span>
+              <RocketOutlined />
+              <span>科技园区创新大厦 888 号</span>
             </Space>
-            <Text style={{ color: 'rgba(255,255,255,0.85)' }}>邮箱：contact@ecomarket.com</Text>
+            <Text style={{ color: 'rgba(255,255,255,0.85)' }}>邮箱：support@weixiang.com</Text>
           </Space>
         </Col>
       </Row>
       <div style={{ textAlign: 'center', marginTop: 32, paddingTop: 24, borderTop: '1px solid rgba(255,255,255,0.2)' }}>
         <Space>
-          <HeartOutlined />
+          <ThunderboltOutlined />
           <Text style={{ color: 'rgba(255,255,255,0.85)' }}>
-            © 2024 EcoMarket. All rights reserved. 保护地球，从购物开始。
+            © 2024 微享商城. All rights reserved. 科技改变生活，从微享开始。
           </Text>
         </Space>
       </div>

@@ -10,12 +10,12 @@ interface Props {
 
 const AppLayout: React.FC<Props> = ({ children }) => {
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout style={{ minHeight: '100vh', background: '#0a0a1a' }}>
       <Header />
       <Content
         style={{
           padding: '24px',
-          background: '#f6ffed',
+          background: '#0a0a1a',
           flex: 1,
         }}
       >
