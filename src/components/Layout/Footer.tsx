@@ -1,10 +1,13 @@
-import { Layout, Row, Col, Typography, Space } from 'antd';
-import { RocketOutlined, ThunderboltOutlined } from '@ant-design/icons';
+import { Layout, Row, Col, Typography, Space, Button } from 'antd';
+import { RocketOutlined, ThunderboltOutlined, SettingOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 
 const { Footer: AntFooter } = Layout;
 const { Title, Text } = Typography;
 
 const Footer: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <AntFooter
       style={{
@@ -50,13 +53,27 @@ const Footer: React.FC = () => {
           </Space>
         </Col>
       </Row>
-      <div style={{ textAlign: 'center', marginTop: 32, paddingTop: 24, borderTop: '1px solid rgba(255,255,255,0.2)' }}>
+      <div style={{ textAlign: 'center', marginTop: 32, paddingTop: 24, borderTop: '1px solid rgba(255,255,255,0.2)', position: 'relative' }}>
         <Space>
           <ThunderboltOutlined />
           <Text style={{ color: 'rgba(255,255,255,0.85)' }}>
             © 2024 微享商城. All rights reserved. 科技改变生活，从微享开始。
           </Text>
         </Space>
+        <Button
+          type="text"
+          icon={<SettingOutlined />}
+          onClick={() => navigate('/admin/login')}
+          style={{
+            position: 'absolute',
+            right: 0,
+            bottom: 0,
+            color: 'rgba(255,255,255,0.3)',
+            fontSize: 12,
+          }}
+        >
+          后台管理
+        </Button>
       </div>
     </AntFooter>
   );
