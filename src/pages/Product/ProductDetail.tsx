@@ -28,7 +28,7 @@ const ProductDetail: React.FC = () => {
     setLoading(true);
     try {
       const response = await productService.getProductDetail(productId);
-      setProduct(response.data);
+      setProduct(response || null);
     } catch {
       message.error('加载商品失败');
     } finally {
@@ -163,18 +163,7 @@ const ProductDetail: React.FC = () => {
         </Col>
       </Row>
 
-      {/* Product Details */}
-      <Card title="商品详情" style={{ marginTop: 24 }}>
-        <Paragraph style={{ fontSize: 16, lineHeight: 1.8 }}>
-          🌿 我们承诺所有商品均采用环保材料制作，为您和地球的健康负责。
-        </Paragraph>
-        <Paragraph style={{ fontSize: 16, lineHeight: 1.8 }}>
-          💚 每购买一件商品，我们将捐出 1% 的收益用于环保公益事业。
-        </Paragraph>
-        <Paragraph style={{ fontSize: 16, lineHeight: 1.8 }}>
-          📦 我们使用可回收包装，减少对环境的影响。
-        </Paragraph>
-      </Card>
+
     </Space>
   );
 };
