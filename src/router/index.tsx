@@ -12,6 +12,9 @@ import OrderList from '../pages/Order/OrderList';
 import OrderDetail from '../pages/Order/OrderDetail';
 import NotFound from '../pages/NotFound';
 import { ProtectedRoute } from '../hooks/useAuth';
+import { AdminProtectedRoute } from '../hooks/useAdminAuth';
+import AdminLogin from '../pages/Admin/Login';
+import AdminLayout from '../pages/Admin/Layout';
 
 const router = createBrowserRouter([
   {
@@ -81,6 +84,20 @@ const router = createBrowserRouter([
       {
         path: '*',
         element: <NotFound />,
+      },
+    ],
+  },
+  {
+    path: '/admin',
+    element: <AdminLayout />,
+    children: [
+      {
+        index: true,
+        element: <AdminLogin />,
+      },
+      {
+        path: 'login',
+        element: <AdminLogin />,
       },
     ],
   },
