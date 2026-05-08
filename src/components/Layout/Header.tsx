@@ -107,10 +107,7 @@ const Header: React.FC = () => {
             label: <Link to="/products">商品列表</Link>,
           },
         ]}
-        activeStyle={{
-          background: '#722ED1',
-          borderRadius: 6,
-        }}
+
       />
 
       <Space size="middle">
