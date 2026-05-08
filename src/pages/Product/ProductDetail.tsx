@@ -79,11 +79,22 @@ const ProductDetail: React.FC = () => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              background: 'linear-gradient(135deg, #f6ffed 0%, #d9f7be 100%)',
+              background: 'linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 100%)',
               fontSize: 120,
+              padding: 0,
+              overflow: 'hidden',
             }}
+            bodyStyle={{ padding: 0, height: '100%' }}
           >
-            🌱
+            {product.image ? (
+              <img
+                alt={product.name}
+                src={product.image}
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            ) : (
+              '🌱'
+            )}
           </Card>
         </Col>
 
