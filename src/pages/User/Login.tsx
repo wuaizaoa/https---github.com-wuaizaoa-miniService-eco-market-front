@@ -18,13 +18,12 @@ const Login: React.FC = () => {
   const onFinish = async (values: { username: string; password: string }) => {
     setLoading(true);
     try {
-      const response = await userService.login(values);
-      const loginData = response.data;
+      const loginData = await userService.login(values);
       
       // 获取用户信息
-      const userResponse = await userService.getUserById(loginData.id);
+      const userData = await userService.getUserById(loginData.id);
       
-      login(userResponse.data, loginData.token);
+      login(userData, loginData.token);
       
       message.success('登录成功');
       navigate(from, { replace: true });

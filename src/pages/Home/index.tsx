@@ -23,7 +23,7 @@ const Home: React.FC = () => {
     setLoading(true);
     try {
       const productsRes = await productService.getAllProducts();
-      setProducts(productsRes.data);
+      setProducts(productsRes || []);
     } catch {
       message.error('加载数据失败');
     } finally {

@@ -39,8 +39,9 @@ export const useCartStore = create<CartState>()(
         set({ loading: true });
         try {
           const response = await cartService.getCart(user.id);
-          const { totalCount, totalPrice } = calculateTotalsFromItems(response.data);
-          set({ items: response.data, totalCount, totalPrice });
+          const cartItems = response || [];
+          const { totalCount, totalPrice } = calculateTotalsFromItems(cartItems);
+          set({ items: cartItems, totalCount, totalPrice });
         } catch (error) {
           console.error('Failed to fetch cart:', error);
         } finally {

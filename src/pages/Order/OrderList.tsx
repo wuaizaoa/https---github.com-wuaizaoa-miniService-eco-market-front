@@ -27,7 +27,7 @@ const OrderList: React.FC = () => {
     setLoading(true);
     try {
       const response = await orderService.getOrdersByUserId(user.id);
-      setOrders(response.data);
+      setOrders(response || []);
     } catch {
       message.error('加载订单失败');
     } finally {

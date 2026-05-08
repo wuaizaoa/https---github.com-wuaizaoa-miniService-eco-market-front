@@ -17,7 +17,8 @@ const AdminLogin: React.FC = () => {
   const handleSubmit = async (values: { username: string; password: string }) => {
     try {
       const res = await adminService.adminLogin(values);
-      login(res.token, values.username);
+      const token = res?.token || res; // 兼容两种可能的响应结构
+      login(typeof token === 'string' ? token : token?.token, values.username);
       message.success('登录成功');
       navigate(from, { replace: true });
     } catch (error) {

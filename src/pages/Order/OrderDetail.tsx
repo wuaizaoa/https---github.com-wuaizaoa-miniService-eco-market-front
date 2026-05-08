@@ -25,7 +25,7 @@ const OrderDetail: React.FC = () => {
     setLoading(true);
     try {
       const response = await orderService.getOrderDetail(orderId);
-      setOrder(response.data);
+      setOrder(response || null);
     } catch {
       message.error('加载订单详情失败');
     } finally {

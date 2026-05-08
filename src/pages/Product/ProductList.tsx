@@ -28,8 +28,8 @@ const ProductListPage: React.FC = () => {
         productService.getAllProducts(),
         productService.getAllCategories(),
       ]);
-      setProducts(productsRes.data);
-      setCategories(categoriesRes.data);
+      setProducts(productsRes || []);
+      setCategories(categoriesRes || []);
     } catch {
       message.error('加载数据失败');
     } finally {
