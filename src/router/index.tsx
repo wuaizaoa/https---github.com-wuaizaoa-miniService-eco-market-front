@@ -15,6 +15,9 @@ import { ProtectedRoute } from '../hooks/useAuth';
 import { AdminProtectedRoute } from '../hooks/useAdminAuth';
 import AdminLogin from '../pages/Admin/Login';
 import AdminLayout from '../pages/Admin/Layout';
+import UserManagement from '../pages/Admin/UserManagement';
+import ProductManagement from '../pages/Admin/ProductManagement';
+import OrderManagement from '../pages/Admin/OrderManagement';
 
 const router = createBrowserRouter([
   {
@@ -98,6 +101,30 @@ const router = createBrowserRouter([
       {
         path: 'login',
         element: <AdminLogin />,
+      },
+      {
+        path: 'users',
+        element: (
+          <AdminProtectedRoute>
+            <UserManagement />
+          </AdminProtectedRoute>
+        ),
+      },
+      {
+        path: 'products',
+        element: (
+          <AdminProtectedRoute>
+            <ProductManagement />
+          </AdminProtectedRoute>
+        ),
+      },
+      {
+        path: 'orders',
+        element: (
+          <AdminProtectedRoute>
+            <OrderManagement />
+          </AdminProtectedRoute>
+        ),
       },
     ],
   },
