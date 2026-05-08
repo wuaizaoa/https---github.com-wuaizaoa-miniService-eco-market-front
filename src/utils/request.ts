@@ -10,30 +10,30 @@ const request: AxiosInstance = axios.create({
 });
 
 request.interceptors.request.use(
-  (config: InternalAxiosRequestConfig) =&gt; {
+  (config: InternalAxiosRequestConfig) => {
     const isAdminRequest = config.url?.startsWith('/api/admin');
     
     if (isAdminRequest) {
       const adminToken = localStorage.getItem('adminToken');
-      if (adminToken &amp;&amp; config.headers) {
+      if (adminToken && config.headers) {
         config.headers.Authorization = `Bearer ${adminToken}`;
       }
     } else {
       const token = localStorage.getItem('token');
-      if (token &amp;&amp; config.headers) {
+      if (token && config.headers) {
         config.headers.Authorization = `Bearer ${token}`;
       }
     }
     
     return config;
   },
-  (error) =&gt; {
+  (error) => {
     return Promise.reject(error);
   }
 );
 
 request.interceptors.response.use(
-  (response: AxiosResponse&lt;ApiResponse&gt;) =&gt; {
+  (response: AxiosResponse<ApiResponse>) => {
     const res = response.data;
     if (res.code === 200) {
       return { ...response, data: res.data };
@@ -42,7 +42,7 @@ request.interceptors.response.use(
       return Promise.reject(new Error(res.message || '请求失败'));
     }
   },
-  (error) =&gt; {
+  (error) => {
     const isAdminRequest = error.config?.url?.startsWith('/api/admin');
     
     if (error.response?.status === 401) {

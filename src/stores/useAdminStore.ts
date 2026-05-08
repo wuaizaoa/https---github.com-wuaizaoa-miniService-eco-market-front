@@ -5,22 +5,22 @@ interface AdminState {
   isLoggedIn: boolean;
   adminToken: string | null;
   adminUser: { username: string } | null;
-  login: (token: string, username: string) =&gt; void;
-  logout: () =&gt; void;
+  login: (token: string, username: string) => void;
+  logout: () => void;
 }
 
-export const useAdminStore = create&lt;AdminState&gt;()(
+export const useAdminStore = create<AdminState>()(
   persist(
-    (set) =&gt; ({
+    (set) => ({
       isLoggedIn: false,
       adminToken: null,
       adminUser: null,
-      login: (token, username) =&gt; {
+      login: (token, username) => {
         localStorage.setItem('adminToken', token);
         localStorage.setItem('adminUser', JSON.stringify({ username }));
         set({ isLoggedIn: true, adminToken: token, adminUser: { username } });
       },
-      logout: () =&gt; {
+      logout: () => {
         localStorage.removeItem('adminToken');
         localStorage.removeItem('adminUser');
         set({ isLoggedIn: false, adminToken: null, adminUser: null });
@@ -29,7 +29,7 @@ export const useAdminStore = create&lt;AdminState&gt;()(
     {
       name: 'admin-storage',
       storage: {
-        getItem: (name) =&gt; {
+        getItem: (name) => {
           const str = localStorage.getItem(name);
           if (!str) return null;
           const { state } = JSON.parse(str);
@@ -40,14 +40,14 @@ export const useAdminStore = create&lt;AdminState&gt;()(
               ...state,
               adminToken: token,
               adminUser: userStr ? JSON.parse(userStr) : null,
-              isLoggedIn: !!token &amp;&amp; !!userStr,
+              isLoggedIn: !!token && !!userStr,
             },
           };
         },
-        setItem: (name, newValue) =&gt; {
+        setItem: (name, newValue) => {
           localStorage.setItem(name, JSON.stringify(newValue));
         },
-        removeItem: (name) =&gt; localStorage.removeItem(name),
+        removeItem: (name) => localStorage.removeItem(name),
       },
     }
   )

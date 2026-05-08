@@ -1,75 +1,69 @@
 import { Layout, Menu, Typography, Button, Space } from 'antd';
-import { 
-  UserOutlined, 
-  ShoppingOutlined, 
-  OrderedListOutlined,
-  LogoutOutlined,
-  DashboardOutlined
-} from '@ant-design/icons';
+import { UserOutlined, ShoppingOutlined, OrderedListOutlined, LogoutOutlined, DashboardOutlined } from '@ant-design/icons';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAdminStore } from '@/stores/useAdminStore';
 
 const { Header, Sider, Content } = Layout;
 const { Title } = Typography;
 
-const AdminLayout: React.FC = () =&gt; {
+const AdminLayout: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const adminUser = useAdminStore((state) =&gt; state.adminUser);
-  const logout = useAdminStore((state) =&gt; state.logout);
+  const adminUser = useAdminStore((state) => state.adminUser);
+  const logout = useAdminStore((state) => state.logout);
 
   const menuItems = [
     {
       key: '/admin/users',
-      icon: &lt;UserOutlined /&gt;,
+      icon: <UserOutlined />,
       label: '用户管理',
     },
     {
       key: '/admin/products',
-      icon: &lt;ShoppingOutlined /&gt;,
+      icon: <ShoppingOutlined />,
       label: '商品管理',
     },
     {
       key: '/admin/orders',
-      icon: &lt;OrderedListOutlined /&gt;,
+      icon: <OrderedListOutlined />,
       label: '订单管理',
     },
   ];
 
-  const handleMenuClick = ({ key }: { key: string }) =&gt; {
+  const handleMenuClick = ({ key }: { key: string }) => {
     navigate(key);
   };
 
-  const handleLogout = () =&gt; {
+  const handleLogout = () => {
     logout();
     navigate('/admin/login');
   };
 
   return (
-    &lt;Layout style={{ minHeight: '100vh' }}&gt;
-      &lt;Sider
+    <Layout style={{ minHeight: '100vh' }}>
+      <Sider
         style={{
           background: 'linear-gradient(180deg, #1a1a3a 0%, #0a0a1a 100%)',
         }}
         width={200}
-      &gt;
-        &lt;div style={{ padding: 16, display: 'flex', alignItems: 'center' }}&gt;
-          &lt;DashboardOutlined style={{ fontSize: 24, color: '#722ED1', marginRight: 8 }} /&gt;
-          &lt;Title level={4} style={{ margin: 0, color: '#fff' }}&gt;
+      >
+        <div style={{ padding: 16, display: 'flex', alignItems: 'center' }}>
+          <DashboardOutlined style={{ fontSize: 24, color: '#722ED1', marginRight: 8 }} />
+          <Title level={4} style={{ margin: 0, color: '#fff' }}>
             微享管理后台
-          &lt;/Title&gt;
-        &lt;/div&gt;
-        &lt;Menu
+          </Title>
+        </div>
+        <Menu
           theme="dark"
           mode="inline"
           selectedKeys={[location.pathname]}
           items={menuItems}
           onClick={handleMenuClick}
           style={{ background: 'transparent' }}
-        /&gt;
-      &lt;/Sider&gt;
-      &lt;Layout&gt;
-        &lt;Header
+        />
+      </Sider>
+      <Layout>
+        <Header
           style={{
             background: '#fff',
             padding: '0 24px',
@@ -78,32 +72,32 @@ const AdminLayout: React.FC = () =&gt; {
             alignItems: 'center',
             boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
           }}
-        &gt;
-          &lt;div /&gt;
-          &lt;Space&gt;
-            &lt;span style={{ color: '#333' }}&gt;
+        >
+          <div />
+          <Space>
+            <span style={{ color: '#333' }}>
               管理员：{adminUser?.username}
-            &lt;/span&gt;
-            &lt;Button
+            </span>
+            <Button
               type="text"
-              icon={&lt;LogoutOutlined /&gt;}
+              icon={<LogoutOutlined />}
               onClick={handleLogout}
-            &gt;
+            >
               退出登录
-            &lt;/Button&gt;
-          &lt;/Space&gt;
-        &lt;/Header&gt;
-        &lt;Content
+            </Button>
+          </Space>
+        </Header>
+        <Content
           style={{
             padding: 24,
             background: '#f0f2f5',
             minHeight: 280,
           }}
-        &gt;
-          &lt;Outlet /&gt;
-        &lt;/Content&gt;
-      &lt;/Layout&gt;
-    &lt;/Layout&gt;
+        >
+          <Outlet />
+        </Content>
+      </Layout>
+    </Layout>
   );
 };
 
