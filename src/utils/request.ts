@@ -11,7 +11,7 @@ const request: AxiosInstance = axios.create({
 
 request.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    const isAdminRequest = config.url?.startsWith('/api/admin');
+    const isAdminRequest = config.url?.includes('/admin');
     
     if (isAdminRequest) {
       const adminToken = localStorage.getItem('adminToken');
@@ -36,7 +36,7 @@ request.interceptors.response.use(
   (response: AxiosResponse<ApiResponse>) => {
     const res = response.data;
     if (res.code === 200) {
-      return { ...response, data: res.data };
+      return res.data;
     } else {
       message.error(res.message || '请求失败');
       return Promise.reject(new Error(res.message || '请求失败'));
