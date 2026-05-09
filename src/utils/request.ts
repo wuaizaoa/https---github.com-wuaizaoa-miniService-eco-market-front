@@ -59,19 +59,19 @@ const request: AxiosInstance = axios.create({
 request.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     const isAdminRequest = config.url?.includes('/admin');
-    
+
     if (isAdminRequest) {
       const adminToken = localStorage.getItem('adminToken');
-      if (adminToken && config.headers) {
+      if (adminToken && adminToken !== 'undefined' && config.headers) {
         config.headers.Authorization = `Bearer ${adminToken}`;
       }
     } else {
       const token = localStorage.getItem('token');
-      if (token && config.headers) {
+      if (token && token !== 'undefined' && config.headers) {
         config.headers.Authorization = `Bearer ${token}`;
       }
     }
-    
+
     const groupTitle = `🚀 REQUEST: ${config.method?.toUpperCase()} ${config.url}`;
     console.group(groupTitle);
     console.log('📅 Timestamp:', new Date().toISOString());
@@ -85,7 +85,7 @@ request.interceptors.request.use(
       console.log('📤 Body:', filterSensitiveData(config.data));
     }
     console.groupEnd();
-    
+
     return config;
   },
   (error) => {
