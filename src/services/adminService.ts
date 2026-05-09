@@ -15,12 +15,12 @@ export const adminService = {
 
   getAllUsers: () => api.get<User[]>('/api/user/admin/list'),
   createUser: (data: Omit<User, 'id' | 'createdAt' | 'updatedAt'>) => api.post<User>('/api/user/admin', data),
-  updateUser: (id: number, data: Partial<Omit<User, 'id' | 'createdAt' | 'updatedAt'>>) => api.put<User>(`/api/user/admin/${id}`, data),
+  updateUser: (id: number, data: Partial<Omit<User, 'id' | 'createdAt' | 'updatedAt'>>) => api.put<User>(`/api/user/admin/${id}`, { ...data, id }),
   deleteUser: (id: number) => api.delete(`/api/user/admin/${id}`),
 
   getAllProducts: () => api.get<Product[]>('/api/product/admin/list'),
   createProduct: (data: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>) => api.post<Product>('/api/product/admin', data),
-  updateProduct: (id: number, data: Partial<Omit<Product, 'id' | 'createdAt' | 'updatedAt'>>) => api.put<Product>(`/api/product/admin/${id}`, data),
+  updateProduct: (id: number, data: Partial<Omit<Product, 'id' | 'createdAt' | 'updatedAt'>>) => api.put<Product>(`/api/product/admin/${id}`, { ...data, id }),
   deleteProduct: (id: number) => api.delete(`/api/product/admin/${id}`),
 
   getAllOrders: () => api.get<Order[]>('/api/order/admin/list'),
